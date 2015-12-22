@@ -1,24 +1,46 @@
 var express = require('express');
+var cors = require('cors');
+var knex = require('knex')({
+  client: 'pg',
+  connection: {
+    host: 'localhost',
+    database: 'dogs',
+    user: 'dogs_knex_lead',
+    password: 'dogs_password'
+  }
+})
 var app = express();
+app.use(cors());
+
 
 app.get('/dogs', function(req, res){
-  res.send({dogs: dogs});
+  knex('dogs').select().then(function(dogs){
+    res.send({dogs: dogs});
+  });
 });
 
 app.get('/dogs/:id', function(req, res){
-  res.send({dogs: dogs[req.params.id - 1]});
+  knex(dogs).select()
+    .where('id', req.params.id)
+    .then(function(dogs){
+      res.send({dogs: dogs});
+    });
 });
 
 app.get('/dogs/byname/:name', function(req, res){
-  var dog = []
-  for (var i=0; i < dogs.length; i++){
+  knex('dogs').select()
+    .where('name', req.params.name)
+    .then(function(dogs){
+      var dog = []
+      for (var i=0; i < dogs.length; i++){
 
-      if (dogs[i].name == req.params.name){
-        // dog = dogs[i]
-        dog.push(dogs[i]);
+          if (dogs[i].name == req.params.name){
+            // dog = dogs[i]
+            dog.push(dogs[i]);
+          }
       }
-  }
-  res.send({dogs: dog});
+      res.send({dogs: dog});
+    });
 });
 
 
