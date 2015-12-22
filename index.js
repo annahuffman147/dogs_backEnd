@@ -1,21 +1,6 @@
 var express = require('express');
 var app = express();
 
-var dogs = [{
-    id: 1,
-    name: 'Booboo',
-    sex: 'male'
-  },{
-    id: 2,
-    name: 'Pepper',
-    sex: 'male'
-  },{
-    id: 3,
-    name: 'Pepper',
-    sex: 'female'
-  }
-];
-
 app.get('/dogs', function(req, res){
   res.send({dogs: dogs});
 });
